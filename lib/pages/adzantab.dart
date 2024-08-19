@@ -1,93 +1,103 @@
-// import 'package:alqurann/model/doa_model.dart';
-// import 'package:alqurann/pages/tabs/detaildzikir.dart';
-// import 'package:alqurann/theme.dart';
-// import 'package:alqurann/viewmodel/adzanviewmodel.dart';
-// import 'package:alqurann/viewmodel/doaviewmodel.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import 'package:alqurann/model/adzan_model.dart';
+import 'package:alqurann/viewmodel/adzanviewmodel.dart';
+import 'package:flutter/material.dart';
 
-// class tabAdzan extends StatelessWidget {
-//   const tabAdzan({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     final AdzanViewModel _viewModel = AdzanViewModel();
-//     return Scaffold(
-//       body: FutureBuilder(
-//         future: _viewModel.getListAdzan(),
-//         builder: (context, snapshot) {
-//           if (!snapshot.hasData) {
-//             return Center(child: Text("no data"));
-//           } else {
-//             return ListView.separated(
-//                 itemBuilder: (context, index) => _ListDoa(
-//                     context: context, doa: snapshot.data!.elementAt(index)),
-//                 separatorBuilder: (context, index) => Divider(
-//                       color: Colors.grey.withOpacity(1),
-//                       height: 1,
-//                     ),
-//                 itemCount: snapshot.data!.length);
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
+class TabAdzan extends StatefulWidget {
+  @override
+  _TabAdzanState createState() => _TabAdzanState();
+}
 
-// Widget _ListDoa({required BuildContext context, required doa doa}) {
-//   return Container(
-//     padding: EdgeInsets.all(15),
-//     child: Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           doa.title.toString().toUpperCase(),
-//           style:
-//               GoogleFonts.poppins(fontWeight: FontWeight.bold, color: primary),
-//         ),
-//         SizedBox(
-//           height: 50,
-//         ),
-//         Row(
-//           children: [
-//             SizedBox(
-//               height: 50,
-//               width: 10,
-//             ),
-//             Expanded(
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.end,
-//                 children: [
-//                   Text(
-//                     doa.arabic.toString(),
-//                     textAlign: TextAlign.end,
-//                     style: GoogleFonts.amiriQuran(
-//                         fontWeight: FontWeight.w600,
-//                         color: Colors.black,
-//                         fontSize: 20),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//         SizedBox(
-//           height: 20,
-//         ),
-//         Text(doa.latin.toString(),
-//             style: GoogleFonts.poppins(
-//                 fontWeight: FontWeight.w400,
-//                 color: Colors.black,
-//                 fontSize: 14)),
-//         SizedBox(
-//           height: 20,
-//         ),
-//         Text(doa.translation.toString(),
-//             style: GoogleFonts.poppins(
-//                 fontWeight: FontWeight.w400,
-//                 color: Colors.black,
-//                 fontSize: 14)),
-//       ],
-//     ),
-//   );
-// }
+class _TabAdzanState extends State<TabAdzan> {
+  @override
+  Widget build(BuildContext context) {
+    final AdzanViewModel _viewModel = AdzanViewModel(dateTime: DateTime.now(), name: ''); // You should initialize dateTime properly or adjust the constructor.
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Jadwal Adzan'),
+      ),
+      body: FutureBuilder<List<JadwalAdzan>>(
+        future: _viewModel.getListAdzan(), // Assuming this method returns a list of JadwalAdzan objects
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Error loading data"));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text("No data available"));
+          } else {
+            JadwalAdzan jadwalAdzan = snapshot.data!.first; // Assuming you want to display the first entry
+
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Subuh'),
+                          Text(jadwalAdzan.shubuh ?? 'N/A'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Dzuhur'),
+                          Text(jadwalAdzan.dzuhur ?? 'N/A'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Ashar'),
+                          Text(jadwalAdzan.ashr ?? 'N/A'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Maghrib'),
+                          Text(jadwalAdzan.magrib ?? 'N/A'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Isya'),
+                          Text(jadwalAdzan.isya ?? 'N/A'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+}

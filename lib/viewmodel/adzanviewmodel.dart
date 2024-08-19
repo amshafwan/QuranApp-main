@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:alqurann/model/adzan_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Untuk membaca file JSON
 import 'package:intl/intl.dart';
@@ -19,7 +20,13 @@ class AdzanViewModel {
     );
   }
 
-  getListAdzan() {}
+  Future<List<JadwalAdzan>> getListAdzan() async {
+    final String response = await rootBundle.loadString('assets/data/list-jadwal-adzan.json');
+    final List<dynamic> data = json.decode(response);
+    return data.map((item) => JadwalAdzan.fromJson(item)).toList();
+  }
+formatAdzanTime(DateTime dateTime){}
+  
 }
 
 class Adzan extends ChangeNotifier {

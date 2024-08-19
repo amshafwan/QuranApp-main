@@ -1,3 +1,4 @@
+import 'package:alqurann/pages/adzantab.dart';
 import 'package:alqurann/viewmodel/ayahviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -107,13 +108,16 @@ DefaultTabController _body(value) => DefaultTabController(
             children: [
               tabSurah(), // Konten untuk tab Surah
               tabDzikir(), // Konten untuk tab Dzikir
-              tabDoa(), // Konten untuk tab Doa
+              tabDoa(),
+              TabAdzan()// Konten untuk tab Doa
               // tabAdzan(), // Konten untuk tab Jadwal Adzan (widget baru)
             ],
           ),
         ),
       ),
     );
+    
+    
 
 
 Column _salam(value) => Column(
@@ -195,20 +199,20 @@ Column _salam(value) => Column(
                       StreamBuilder(
                           stream: Stream.periodic(Duration(seconds: 1)), // Membuat stream yang diperbarui setiap detik.
                           builder: (context, snapshot) {
-                            return Text(
-                              DateFormat('HH:mm:ss').format(DateTime.now()), // Menampilkan waktu saat ini dalam format HH:mm:ss.
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.white),
-                            );
-                          }),
-                    ],
-                  ),
+                  return Text(
+                    DateFormat('HH:mm:ss').format(DateTime.now()), // Menampilkan waktu saat ini dalam format HH:mm:ss.
+                      style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.white),
+                    );
+                  }),
                 ],
               ),
-            )
-          ],
+            ],
+          ),
         )
       ],
-    );
+    )
+  ],
+);

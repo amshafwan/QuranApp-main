@@ -57,4 +57,15 @@ class QuranRepository {
     }
     throw Exception("error");
   }
+
+  Future<JadwalAdzan> getListAdzan(String id_adzan) async {
+    String url = 'http://api.aladhan.com/v1/calendarByCity/2024/4?city=Balikpapan&country=Indonesia&method=2$id_adzan';
+    var response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      return JadwalAdzan.fromJson(body);
+    }
+    throw Exception("error");
+  }
 }
