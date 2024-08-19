@@ -10,15 +10,21 @@ class tabSurah extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SurahViewModel _viewModel = SurahViewModel();
+
+    // Membuat objek dari kelas SurahViewModel untuk mengambil data surat
+    final SurahViewModel _viewModel = SurahViewModel(); 
+
+    // Menggunakan FutureBuilder untuk menunggu data surat selesai diambil
     return FutureBuilder<List<surah>>(
-        future: _viewModel.getListSurah(),
+        future: _viewModel.getListSurah(), // Mendapatkan daftar surat dari ViewModel
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
+            // Tampilkan pesan "Tidak Ada Data" saat data belum tersedia
             return const Center(
               child: Text("No Data"),
             );
           }
+           // Tampilkan daftar surat jika data sudah tersedia
           return ListView.separated(
               itemBuilder: (context, index) => _itemList(
                     context: context,
@@ -36,6 +42,7 @@ class tabSurah extends StatelessWidget {
   }) =>
       InkWell(
         onTap: () {
+          // Navigasi ke layar detail surat saat item diklik
           Navigator.pushNamed(context, DetailScreen.routeName,
               arguments: surah.nomor.toString());
         },

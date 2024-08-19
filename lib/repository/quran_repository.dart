@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:alqurann/model/adzan_model.dart';
 import 'package:alqurann/model/doa_model.dart';
 import 'package:alqurann/model/dzikir_mewing.dart';
 import 'package:alqurann/model/dzikir_model.dart';
@@ -11,8 +12,8 @@ import 'package:http/http.dart' as http;
 
 class QuranRepository {
   Future<List<surah>> getListSurah() async {
-    String data = await rootBundle.loadString('assets/data/list-surah.json');
-    return surahFromJson(data);
+    String data = await rootBundle.loadString('assets/data/list-surah.json'); // Memuat data surah dari file JSON lokal.
+    return surahFromJson(data); // Mengembalikan daftar surah yang didekode dari JSON.
   }
 
   Future<List<doa>> getListDoa() async {
@@ -24,12 +25,14 @@ class QuranRepository {
     String detail = await rootBundle.loadString("assets/data/list-doa.json");
     return doaFromjson(detail);
   }
+  
+  
 
   Future<DzikirDetail> getListDzikir(String id_dzikir) async {
     String data = await rootBundle.loadString('assets/data/list-dzikir.json');
 
     final List<dynamic> mewingDzikir = jsonDecode(data);
-    Map<String, dynamic>? detailData = mewingDzikir.firstWhere((element) => element['id']==id_dzikir,orElse: () => null,);
+    Map<String, dynamic>? detailData = mewingDzikir.firstWhere((element) => element['id']==id_dzikir,orElse: () => null,);  // Mencari data dzikir yang sesuai dengan ID yang diberikan.
 
     if(detailData != null ){
       return DzikirDetail.fromJson(detailData);

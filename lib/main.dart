@@ -19,9 +19,9 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: spalshScreen.routeName,
+      initialRoute: homeScreen.routeName,
       routes: {
-        spalshScreen.routeName: (context) => const spalshScreen(),
+        // spalshScreen.routeName: (context) => const spalshScreen(),
         homeScreen.routeName: (context) =>  homeScreen(),
         DetailScreen.routeName: (context) => DetailScreen(
             id_surah: ModalRoute.of(context)?.settings.arguments as String),
