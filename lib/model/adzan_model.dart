@@ -9,29 +9,37 @@ class JadwalAdzan {
   String? magrib;
   String? isya;
 
-  JadwalAdzan(
-      {this.tanggal,
-      this.imsyak,
-      this.shubuh,
-      this.terbit,
-      this.dhuha,
-      this.dzuhur,
-      this.ashr,
-      this.magrib,
-      this.isya});
+  JadwalAdzan({
+    this.tanggal,
+    this.imsyak,
+    this.shubuh,
+    this.terbit,
+    this.dhuha,
+    this.dzuhur,
+    this.ashr,
+    this.magrib,
+    this.isya,
+  });
 
-  JadwalAdzan.fromJson(Map<String, dynamic> json) {
-    tanggal = json['tanggal'];
-    imsyak = json['imsyak'];
-    shubuh = json['shubuh'];
-    terbit = json['terbit'];
-    dhuha = json['dhuha'];
-    dzuhur = json['dzuhur'];
-    ashr = json['ashr'];
-    magrib = json['magrib'];
-    isya = json['isya'];
+  // Factory constructor for creating a new JadwalAdzan instance from a map
+  factory JadwalAdzan.fromJson(Map<String, dynamic> json) {
+    final timings = json['timings'] as Map<String, dynamic>;
+    final date = json['date'] as Map<String, dynamic>;
+
+    return JadwalAdzan(
+      tanggal: date['readable'],
+      imsyak: timings['Imsak'],
+      shubuh: timings['Fajr'],
+      terbit: timings['Sunrise'],
+      dhuha: null, // Data tidak tersedia dari API
+      dzuhur: timings['Dhuhr'],
+      ashr: timings['Asr'],
+      magrib: timings['Maghrib'],
+      isya: timings['Isha'],
+    );
   }
 
+  // Method for converting a JadwalAdzan instance to a map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['tanggal'] = this.tanggal;

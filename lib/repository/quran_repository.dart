@@ -58,14 +58,21 @@ class QuranRepository {
     throw Exception("error");
   }
 
-  Future<JadwalAdzan> getListAdzan(String id_adzan) async {
-    String url = 'http://api.aladhan.com/v1/calendarByCity/2024/4?city=Balikpapan&country=Indonesia&method=2$id_adzan';
+  Future<List<JadwalAdzan>> getListAdzan() async {
+    String url =
+        'http://api.aladhan.com/v1/calendarByCity/2024/8?city=Balikpapan&country=Indonesia&method=2';
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-      return JadwalAdzan.fromJson(body);
+      List<dynamic> data = body['data']; // Ambil data dari field 'data'
+
+      return data.map((item) {
+        return JadwalAdzan.fromJson(
+            item); // Gunakan factory constructor untuk membuat objek dari JSON
+      }).toList();
+    } else {
+      throw Exception("Failed to load adzan data");
     }
-    throw Exception("error");
   }
 }

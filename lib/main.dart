@@ -1,11 +1,24 @@
-import 'package:alqurann/pages/tabs/detaildzikir.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:alqurann/viewmodel/adzanviewmodel.dart'; // Import ViewModel
+import 'package:alqurann/repository/quran_repository.dart'; // Import Repository
+import 'package:alqurann/pages/tabs/detaildzikir.dart';
 import 'package:alqurann/homescreen.dart';
 import 'package:alqurann/pages/tabs/detailscreen.dart';
 import 'package:alqurann/splashscreen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AdzanViewModel(repository: QuranRepository()),
+        ),
+        // Tambahkan provider lain jika diperlukan
+      ],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -22,7 +35,7 @@ class MainApp extends StatelessWidget {
       initialRoute: homeScreen.routeName,
       routes: {
         // spalshScreen.routeName: (context) => const spalshScreen(),
-        homeScreen.routeName: (context) =>  homeScreen(),
+        homeScreen.routeName: (context) => homeScreen(), // Hapus `const`
         DetailScreen.routeName: (context) => DetailScreen(
             id_surah: ModalRoute.of(context)?.settings.arguments as String),
         detaildzikir.routeName: (context) => detaildzikir(
@@ -31,3 +44,4 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
