@@ -60,7 +60,7 @@ class QuranRepository {
 
   Future<List<JadwalAdzan>> getListAdzan() async {
     String url =
-        'http://api.aladhan.com/v1/calendarByCity/2024/8?city=Balikpapan&country=Indonesia&method=2';
+        'https://raw.githubusercontent.com/lakuapik/jadwalsholatorg/master/adzan/balikpapan/2024/08.json';
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
