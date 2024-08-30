@@ -1,31 +1,44 @@
-import 'package:alqurann/model/doa_model.dart';
-import 'package:alqurann/pages/tabs/detaildzikir.dart';
-import 'package:alqurann/theme.dart';
-import 'package:alqurann/viewmodel/doaviewmodel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:alqurann/model/doa_model.dart'; // Mengimpor model data doa.
+import 'package:alqurann/pages/tabs/detaildzikir.dart'; // Mengimpor halaman detail dzikir.
+import 'package:alqurann/theme.dart'; // Mengimpor tema aplikasi.
+import 'package:alqurann/viewmodel/doaviewmodel.dart'; // Mengimpor ViewModel untuk doa.
+import 'package:flutter/material.dart'; // Mengimpor widget dasar Flutter.
+import 'package:flutter_svg/flutter_svg.dart'; // Mengimpor untuk mendukung gambar SVG.
+import 'package:google_fonts/google_fonts.dart'; // Mengimpor Google Fonts untuk font khusus.
 
 class tabDoa extends StatelessWidget {
-  const tabDoa({super.key});
+  // Membuat widget Stateless untuk tab doa.
+  const tabDoa({super.key}); // Konstruktor dengan key opsional.
+
   @override
   Widget build(BuildContext context) {
-    final DoaViewModel _viewModel = DoaViewModel();
-    return Scaffold(
+    final DoaViewModel _viewModel =
+        DoaViewModel(); // Menginisialisasi ViewModel untuk doa.
+
+    return Scaffold( 
       body: FutureBuilder(
-        future: _viewModel.getListDoa(),
+        future:
+            _viewModel.getListDoa(), // Mendapatkan daftar doa dari ViewModel.
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: Text("no data"));
+          // Membangun UI berdasarkan status snapshot.
+          if (!snapshot.hasData) { // Jika data belum tersedia.
+            return Center(child: Text("no data")); // Tampilkan teks "no data".
           } else {
+            // Jika data tersedia.
             return ListView.separated(
+                // Tampilkan data dalam ListView dengan pemisah.
                 itemBuilder: (context, index) => _ListDoa(
-                    context: context, doa: snapshot.data!.elementAt(index)),
+                    // Membuat widget doa untuk setiap item.
+                    context: context,
+                    doa: snapshot.data!
+                        .elementAt(index)), // Ambil item doa berdasarkan index.
                 separatorBuilder: (context, index) => Divider(
-                      color: Colors.grey.withOpacity(1),
-                      height: 1,
+                      // Garis pemisah antara item.
+                      color: Colors.grey.withOpacity(1), // Warna garis pemisah.
+                      height: 1, // Tinggi garis pemisah.
                     ),
-                itemCount: snapshot.data!.length);
+                itemCount:
+                    snapshot.data!.length); // Jumlah item dalam ListView.
           }
         },
       ),
@@ -34,36 +47,48 @@ class tabDoa extends StatelessWidget {
 }
 
 Widget _ListDoa({required BuildContext context, required doa doa}) {
+  // Fungsi untuk membangun widget item doa.
   return Container(
-    padding: EdgeInsets.all(15),
+    // Menggunakan container untuk mengatur layout.
+    padding: EdgeInsets.all(15), // Padding di dalam container.
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      // Mengatur widget dalam kolom vertikal.
+      crossAxisAlignment: CrossAxisAlignment.start, // Posisi di sisi kiri.
       children: [
         Text(
-          doa.title.toString().toUpperCase(),
-          style:
-              GoogleFonts.poppins(fontWeight: FontWeight.bold, color: primary),
+          // Menampilkan judul doa.
+          doa.title.toString().toUpperCase(), // Judul doa dalam huruf besar.
+          style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+              color: primary), // Menggunakan font Poppins dan warna utama.
         ),
         SizedBox(
+          // Jarak vertikal.
           height: 50,
         ),
         Row(
+          // Baris horizontal untuk teks Arab.
           children: [
             SizedBox(
+              // Spasi di sebelah kiri.
               height: 50,
               width: 10,
             ),
             Expanded(
+              // Kolom untuk teks Arab dengan lebar penuh.
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                // Kolom untuk mengatur teks Arab di akhir baris.
+                crossAxisAlignment: CrossAxisAlignment.end, // Teks rata kanan.
                 children: [
                   Text(
-                    doa.arabic.toString(),
-                    textAlign: TextAlign.end,
+                    // Menampilkan teks Arab.
+                    doa.arabic.toString(), // Teks doa dalam bahasa Arab.
+                    textAlign: TextAlign.end, // Penjajaran teks di akhir.
                     style: GoogleFonts.amiriQuran(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 20),
+                        // Menggunakan font Amiri Quran untuk teks Arab.
+                        fontWeight: FontWeight.w600, // Tebal sedang.
+                        color: Colors.black, // Warna hitam.
+                        fontSize: 20), // Ukuran font 20.
                   ),
                 ],
               ),
@@ -71,21 +96,25 @@ Widget _ListDoa({required BuildContext context, required doa doa}) {
           ],
         ),
         SizedBox(
+          // Jarak vertikal.
           height: 20,
         ),
-        Text(doa.latin.toString(),
+        Text(doa.latin.toString(), // Menampilkan teks Latin (transliterasi).
             style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-                fontSize: 14)),
+                // Menggunakan font Poppins.
+                fontWeight: FontWeight.w400, // Tebal normal.
+                color: Colors.black, // Warna hitam.
+                fontSize: 14)), // Ukuran font 14.
         SizedBox(
+          // Jarak vertikal.
           height: 20,
         ),
-        Text(doa.translation.toString(),
+        Text(doa.translation.toString(), // Menampilkan terjemahan doa.
             style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-                fontSize: 14)),
+                // Menggunakan font Poppins.
+                fontWeight: FontWeight.w400, // Tebal normal.
+                color: Colors.black, // Warna hitam.
+                fontSize: 14)), // Ukuran font 14.
       ],
     ),
   );

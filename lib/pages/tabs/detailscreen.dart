@@ -10,7 +10,7 @@ import 'package:just_audio/just_audio.dart';
 // Ini adalah kelas DetailScreen, yang menampilkan detail dari sebuah surah.
 class DetailScreen extends StatelessWidget {
   static const routeName = 'detail_screen'; // Ini adalah nama rute untuk navigasi.
-  final String id_surah; // ID surah yang akan ditampilkan.
+  final String id_surah; // id surah yang akan ditampilkan.
 
   // Constructor kelas DetailScreen, perlu id_surah saat dibuat.
   DetailScreen({super.key, required this.id_surah});

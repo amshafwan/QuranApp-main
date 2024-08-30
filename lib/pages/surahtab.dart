@@ -14,17 +14,28 @@ class tabSurah extends StatelessWidget {
     // Membuat objek dari kelas SurahViewModel untuk mengambil data surat
     final SurahViewModel _viewModel = SurahViewModel(); 
 
-    // Menggunakan FutureBuilder untuk menunggu data surat selesai diambil
     return FutureBuilder<List<surah>>(
         future: _viewModel.getListSurah(), // Mendapatkan daftar surat dari ViewModel
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // Tampilkan pesan "Tidak Ada Data" saat data belum tersedia
+          if (!snapshot.hasData) { // Menampilkan "No Data" kalau data belum tersedia
             return const Center(
               child: Text("No Data"),
             );
           }
-           // Tampilkan daftar surat jika data sudah tersedia
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Error loading data"),
+            );
+          }
+
+          // Tampilkan daftar surat jika data sudah tersedia
           return ListView.separated(
               itemBuilder: (context, index) => _itemList(
                     context: context,
@@ -36,13 +47,13 @@ class tabSurah extends StatelessWidget {
         });
   }
 
+  // Widget untuk menampilkan item daftar surah
   Widget _itemList({
     required BuildContext context,
     required surah surah,
   }) =>
       InkWell(
         onTap: () {
-          // Navigasi ke layar detail surat saat item diklik
           Navigator.pushNamed(context, DetailScreen.routeName,
               arguments: surah.nomor.toString());
         },
@@ -61,13 +72,14 @@ class tabSurah extends StatelessWidget {
                       child: Text(
                         surah.nomor.toString(),
                         style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, color: Colors.black),
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +97,7 @@ class tabSurah extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           fontSize: 16,
                           color: Colors.grey),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -93,7 +105,7 @@ class tabSurah extends StatelessWidget {
                 surah.nama,
                 style: GoogleFonts.poppins(
                     fontSize: 18, fontWeight: FontWeight.w800),
-              )
+              ),
             ],
           ),
         ),

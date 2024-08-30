@@ -55,7 +55,6 @@ Widget _itemList(
         required DzikirMewing
             mewing}) => // Membuat widget item untuk ditampilkan dalam daftar.
     InkWell(
-      // InkWell digunakan untuk memberikan efek saat item ditekan.
       onTap: () {
         // Ketika item ditekan.
         Navigator.pushNamed(context,
